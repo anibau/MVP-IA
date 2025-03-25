@@ -9,7 +9,7 @@ export default function Register() {
     email: '',
     password: '',
   });
-  //const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
