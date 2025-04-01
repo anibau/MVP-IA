@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { User } from './entities/user.entity';
 import { Content } from './entities/content.entity';
 import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './modules/users/users.module';
 import configuration from './config/configuration';
+import { ContentModule } from './modules/content/content.module';
+import { Category } from './entities/category.entity';
 
 @Module({
   imports: [
@@ -24,16 +24,17 @@ import configuration from './config/configuration';
         username: configService.get('database.username'),
         password: configService.get('database.password'),
         database: configService.get('database.database'),
-        entities: [User, Content],
+        entities: [User,Content, Category],
         synchronize: configService.get('NODE_ENV') === 'development',
       }),
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([User, Content]),
+    TypeOrmModule.forFeature([User, Content, Category]),
     AuthModule,
     UsersModule,
+    ContentModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
