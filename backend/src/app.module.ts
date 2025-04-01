@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { User } from './entities/user.entity';
 import { Content } from './entities/content.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './users/users.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -30,6 +31,7 @@ import configuration from './config/configuration';
     }),
     TypeOrmModule.forFeature([User, Content]),
     AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
