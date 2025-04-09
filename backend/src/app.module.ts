@@ -8,6 +8,8 @@ import { UsersModule } from './modules/users/users.module';
 import configuration from './config/configuration';
 import { ContentModule } from './modules/content/content.module';
 import { Category } from './entities/category.entity';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { IaModule } from './modules/IA/ia.module';
 
 @Module({
   imports: [
@@ -32,7 +34,9 @@ import { Category } from './entities/category.entity';
     TypeOrmModule.forFeature([User, Content, Category]),
     AuthModule,
     UsersModule,
-    ContentModule
+    ContentModule,
+    CategoriesModule,
+    IaModule
   ],
   controllers: [],
   providers: [],
