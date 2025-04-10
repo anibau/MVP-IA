@@ -5,10 +5,11 @@ import { CategoriesRepository } from '../categories/categories.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Content } from 'src/entities/content.entity';
 import { User } from 'src/entities/user.entity';
+import { ContentRepository } from './content.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Content, User])],
   controllers: [ContentController],
-  providers: [ContentService],
+  providers: [ContentService, ContentRepository],
 })
 export class ContentModule {}

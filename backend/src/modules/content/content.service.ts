@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateContentDto } from './dto/create-content.dto';
 import { UpdateContentDto } from './dto/update-content.dto';
+import { ContentRepository } from './content.repository';
 
 @Injectable()
 export class ContentService {
-  create(createContentDto: CreateContentDto) {
-    return 'This action adds a new content';
+  constructor(private readonly contentRepository: ContentRepository){}
+  async create(createContentDto: CreateContentDto) {
+    return  this.contentRepository.create(createContentDto);
   }
 
-  findAll() {
-    return `This action returns all content`;
+  async findAll() {
+    return this.contentRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} content`;
+  async findOne(id: string) {
+    return this.contentRepository.findOne(id);
   }
 
-  update(id: number, updateContentDto: UpdateContentDto) {
-    return `This action updates a #${id} content`;
+  update(id: string, updateContentDto: UpdateContentDto) {
+    return this.contentRepository.update(id, updateContentDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} content`;
+  remove(id: string) {
+    return this.contentRepository.remove(id);
   }
 }
