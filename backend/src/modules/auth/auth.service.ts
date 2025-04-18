@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -13,24 +13,33 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userRepository.findOne({ where: { email } });
-    if (user && await bcrypt.compare(password, user.password)) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
-  }
 
-  async login(user: any) {
-    const payload = { email: user.email, sub: user.id };
-    return {
-      access_token: this.jwtService.sign(payload),
+  async login(user: Partial<User>) {
+    const userFound = await this.userRepository.findOne({where:{email:user.email}});
+    if(!userFound){
+      throw new UnauthorizedException('Credenciales inválidas');
+    }
+    const validatePassword = await bcrypt.compare(user.password, userFound.password);
+    if(!validatePassword){
+      throw new UnauthorizedException('Credenciales inválidas');
+    }
+    const payload = { sub: user.id, id: user.id, email: user.email, roles:["user", "admin"]  };
+    const token = this.jwtService.sign(payload);
+    return { message: 'Login successful', token: token, user: user
     };
   }
 
   async register(userData: Partial<User>) {
+    const userFound = await this.userRepository.findOne({where:{email:userData.email}});
+    if(userFound){
+      throw new BadRequestException('El usuario ya existe');
+    }else if(!userData.password){
+      throw new BadRequestException('La contraseña es requerida');
+    }
     const hashedPassword = await bcrypt.hash(userData.password, 10);
+    if(!hashedPassword){
+      throw new BadRequestException('No se pudo hashear la contraseña');
+    }
     const user = this.userRepository.create({
       ...userData,
       password: hashedPassword,

@@ -10,6 +10,7 @@ import { ContentModule } from './modules/content/content.module';
 import { Category } from './entities/category.entity';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { IaModule } from './modules/IA/ia.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -36,7 +37,13 @@ import { IaModule } from './modules/IA/ia.module';
     UsersModule,
     ContentModule,
     CategoriesModule,
-    IaModule
+    IaModule,
+
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1d' },
+      global: true
+    })
   ],
   controllers: [],
   providers: [],

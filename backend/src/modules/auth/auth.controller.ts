@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { User } from '../../entities/user.entity';
 
@@ -8,15 +8,23 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: { email: string; password: string }) {
-    const user = await this.authService.validateUser(loginDto.email, loginDto.password);
-    if (!user) {
-      throw new UnauthorizedException('Credenciales inválidas');
+    try{
+      if (!loginDto) {
+        throw new BadRequestException('Credenciales inválidas');
+      }
+      return await this.authService.login(loginDto);
+    } catch (error) {
+      throw new BadRequestException('error al iniciar sesion '+error);
     }
-    return this.authService.login(user);
   }
 
-  @Post('register')
+  @Post('signup')
   async register(@Body() registerDto: Partial<User>) {
-    return this.authService.register(registerDto);
+    try{
+      return this.authService.register(registerDto);
+
+    } catch (error) {
+      throw new BadRequestException('error al registrar '+error);
+    }
   }
 } 
