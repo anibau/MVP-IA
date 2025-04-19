@@ -6,23 +6,23 @@ import { ContentRepository } from './content.repository';
 @Injectable()
 export class ContentService {
   constructor(private readonly contentRepository: ContentRepository){}
-  async create(createContentDto: CreateContentDto) {
-    return  this.contentRepository.create(createContentDto);
+  async createContent(createContentDto: CreateContentDto) {
+    return  this.contentRepository.createContent(createContentDto);
   }
 
-  async findAll() {
-    return this.contentRepository.findAll();
+  async findAllContent() {
+    return this.contentRepository.findAllContent();
   }
 
-  async findOne(id: string) {
-    return this.contentRepository.findOne(id);
+  async findOneContent(id: string) {
+    return this.contentRepository.findOneContent(id);
   }
 
-  update(id: string, updateContentDto: UpdateContentDto) {
-    return this.contentRepository.update(id, updateContentDto);
+  updateContent(id: string, updateContentDto: UpdateContentDto) {
+    return this.contentRepository.updateContent(id, updateContentDto);
   }
 
-  remove(id: string) {
-    return this.contentRepository.remove(id);
+  removeContent(id: string) {
+    return this.contentRepository.removeContent(id);
   }
 }

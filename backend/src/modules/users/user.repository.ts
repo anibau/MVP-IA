@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/entities/user.entity";
 import { Repository } from "typeorm";
@@ -8,24 +8,35 @@ export class UserRepository {
     constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
     async getAllUsers() {
-        const users= this.userRepository.find();
+        const users= await this.userRepository.find();
+        if(users.length === 0){
+            throw new BadRequestException('No se encontraron usuarios');
+        }
         return users;
     }
     async getUserById(id: string) {
         const user = await this.userRepository.findOne({where:{id:id}});
+        if(!user){
+            throw new BadRequestException('No se encontro el usuario');
+        }
         return user;
     }
-    async createUser(user: User) {
-        const newUser = this.userRepository.create(user);
-        await this.userRepository.save(newUser);
-        return newUser;
-    }
-    async updateUser(id: string, user: User) {
-        const updatedUser = await this.userRepository.update(id, user);
+   
+    async updateUser(id: string, userData: User) {
+        const userFound = await this.userRepository.findOne({where:{id:id}});
+        if(!userFound){
+            throw new BadRequestException('No se encontro el usuario');
+        }
+        const updatedUser = await this.userRepository.update(userFound.id, userData);
+
         return updatedUser;
     }
     async deleteUser(id: string) {
-        const deletedUser = await this.userRepository.delete(id);
+        const userFound = await this.userRepository.findOne({where:{id:id}});
+        if(!userFound){
+            throw new BadRequestException('No se encontro el usuario');
+        }
+        await this.userRepository.remove(userFound);
         return 'User deleted';
     }
 }

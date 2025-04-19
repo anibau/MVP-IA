@@ -8,7 +8,7 @@ import { CreateContentDto } from "./dto/create-content.dto";
 export class ContentRepository {
     constructor(@InjectRepository(Content) private readonly contentRepository: Repository<Content>) {}
 
-     create(createContentDto: CreateContentDto) {
+     createContent(createContentDto: CreateContentDto) {
         const newContent = this.contentRepository.create(createContentDto);
         if(!newContent){
             throw new BadRequestException('No se pudo crear el contenido')
@@ -18,7 +18,7 @@ export class ContentRepository {
         return newContent;
       }
     
-      findAll() {
+      findAllContent() {
         const contentAll = this.contentRepository.find();
         if(!contentAll){
             throw new BadRequestException('No se encontraron contenidos')
@@ -26,7 +26,7 @@ export class ContentRepository {
         return contentAll;
       }
     
-      findOne(id: string) {
+      findOneContent(id: string) {
         const content= this.contentRepository.findOne({where:{id}});
         if(!content){
             throw new BadRequestException('No se encontro el contenido')
@@ -34,12 +34,12 @@ export class ContentRepository {
         return content;
       }
     
-      update(id: string, updateContentDto) {
+      updateContent(id: string, updateContentDto) {
         const content= this.contentRepository.update(id, updateContentDto);
         return `This action updates a #${id} content`;
       }
     
-      remove(id: string) {
+      removeContent(id: string) {
         this.contentRepository.delete(id);
         return `This action removes a #${id} content`;
       }
