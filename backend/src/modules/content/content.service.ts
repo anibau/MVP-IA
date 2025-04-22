@@ -18,11 +18,11 @@ export class ContentService {
     return this.contentRepository.findOneContent(id);
   }
 
-  updateContent(id: string, updateContentDto: UpdateContentDto) {
+  async updateContent(id: string, updateContentDto: UpdateContentDto) {
     return this.contentRepository.updateContent(id, updateContentDto);
   }
 
-  removeContent(id: string) {
+  async removeContent(id: string) {
     return this.contentRepository.removeContent(id);
   }
 }

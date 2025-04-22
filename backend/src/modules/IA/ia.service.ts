@@ -11,7 +11,7 @@ export class IaService {
         const response = await axios.post(
           this.apiUrl,
           {
-            model: 'mistral-7b', // Modelo a usar
+            model: 'mistral-tiny', // Modelo a usar
             messages: [{ role: 'user', content: prompt }],
           },
           {

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { CategoriesService } from "./categories.service";
 
 @Controller('categories')
@@ -7,10 +7,20 @@ export class CategoriesController {
     
     @Get('/user/:id')
     async getAllCategories(@Param('id') id: string) {
-        return await this.categoriesService.getAllCategories(id);
+        try{
+
+            return await this.categoriesService.getAllCategories(id);
+        } catch(e){
+            throw new BadRequestException('error al obtener las categorias '+ e);
+        }
     }
     @Post()
     async createCategory(@Body()dataCategory) {
-        return await this.categoriesService.createCategory(dataCategory);
+        try{
+            return await this.categoriesService.createCategory(dataCategory);
+
+        } catch(e){
+            throw new BadRequestException('error al crear la categoria '+ e);
+        }
     }
 }

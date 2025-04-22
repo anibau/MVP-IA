@@ -8,8 +8,13 @@ export class ContentController {
   constructor(private readonly contentService: ContentService) {}
 
   @Post()
-  create(@Body() createContentDto: CreateContentDto) {
-    return this.contentService.createContent(createContentDto);
+  async create(@Body() createContentDto: CreateContentDto) {
+    try{
+      return this.contentService.createContent(createContentDto);
+
+    } catch(e){
+      throw new BadRequestException('error al crear el contenido '+ e);
+    }
   }
 
   @Get()
@@ -35,7 +40,7 @@ export class ContentController {
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateContentDto: UpdateContentDto) {
     try{
-      return  this.contentService.updateContent(id, updateContentDto);
+      return  await this.contentService.updateContent(id, updateContentDto);
 
     } catch(e){
       throw new BadRequestException('error al actualizar el contenido '+ e);
@@ -45,7 +50,7 @@ export class ContentController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     try{
-      return this.contentService.removeContent(id);
+      return await this.contentService.removeContent(id);
 
     } catch(e){
       throw new BadRequestException('error al eliminar el contenido '+ e);
