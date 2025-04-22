@@ -44,6 +44,7 @@ const Login = () => {
       if(axios.isAxiosError(error)){
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         error.response?.data?.message || "Error al conectarse al servidor";
+        toast.error(error.response?.data?.message || "Error al conectarse al servidor");
       }else{
         toast.error("Login failed. Please try again.");
 

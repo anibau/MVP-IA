@@ -1,11 +1,11 @@
 import { BadRequestException, Body, Controller, Post } from "@nestjs/common";
 import { IaService } from "./ia.service";
 
-@Controller('ia')
+@Controller('ai')
 export class IaController {
     constructor(private readonly iaService: IaService){}
 
-    @Post()
+    @Post('/generate')
     async createIa(@Body() dataIa){
         try{
 
