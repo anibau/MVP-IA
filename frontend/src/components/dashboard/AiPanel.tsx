@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
+import AgentSelector from "./AgentSelector";
 
 const AiPanel = () => {
     const [prompt, setPrompt] = useState("");
@@ -36,6 +37,7 @@ const AiPanel = () => {
     return (
       <div className="p-6">
         <h2 className="text-xl font-semibold mb-4">Generador con IA</h2>
+        <AgentSelector/>
         <textarea
           className="w-full p-2 border rounded mb-4"
           rows={4}

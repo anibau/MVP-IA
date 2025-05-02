@@ -28,4 +28,7 @@ export class IaService {
         throw new Error('Error al conectar con la IA');
       }
     }
+    async promptCustom( prompt: string) {
+      
+    }
 }

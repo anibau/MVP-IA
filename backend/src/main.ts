@@ -24,8 +24,8 @@ async function bootstrap() {
 
   // Configuración de Swagger
   const config = new DocumentBuilder()
-    .setTitle('GetInspired API')
-    .setDescription('API para la aplicación GetInspired')
+    .setTitle('RedContent IA API')
+    .setDescription('API para la aplicación de creación de contenidos')
     .setVersion('1.0')
     .addBearerAuth()
     .build();

@@ -1,6 +1,6 @@
+import { createContext, useState } from "react";
 
-
-export const UserContext = React.createContext({
+export const UserContext = createContext({
     user:[],
     setUser: () => {}
 });
